@@ -15,12 +15,12 @@ const Navbar = (props) => {
 
     useEffect(() => {
         let t = localStorage.getItem("theme");
-        if (!t) {
-            localStorage.setItem("theme", 0);
+        if (t === null) {
+            t = "0";
+            localStorage.setItem("theme", t);
         }
-        t = localStorage.getItem("theme");
         setTheme(t);
-        if (t == 1) {
+        if (t === "1") {
             doc.add("dark");
         }
     }, []);
@@ -33,7 +33,7 @@ const Navbar = (props) => {
                         <div className="flex items-center justify-between">
                             <img
                                 className="h-14 w-auto ml-6"
-                                src={theme == 0 ? logo : logoDark} // Conditionally render logo
+                                src={theme === "0" ? logo : logoDark} // Conditionally render logo
                                 draggable={false}
                                 alt="Your Company"
                             />
@@ -76,10 +76,10 @@ const Navbar = (props) => {
                                 onClick={() => {
                                     localStorage.setItem(
                                         "theme",
-                                        localStorage.getItem("theme") == 1 ? 0 : 1
+                                        localStorage.getItem("theme") === "1" ? 0 : 1
                                     );
                                     setTheme(localStorage.getItem("theme"));
-                                    if (theme == 0) {
+                                    if (theme === "0") {
                                         doc.add("dark");
                                     } else {
                                         doc.remove("dark");

@@ -14,7 +14,7 @@ router.post("/:handle", async (req, res) => {
             await User.findOne({ phone: req.body.phone });
         if (existingUser)
             return res.status(400).json({
-                errorMessage: "An account with this email already exists.",
+                errorMessage: "An account with this phone number already exists.",
             });
 
         // hash the password
@@ -51,13 +51,13 @@ router.post("/login/:handle", async (req, res) => {
         const handle = req.params.handle;
         const existingUser = await (handle == "bank" ? BloodBank.findOne({ phone: phone }) : User.findOne({ phone: phone }));
         if (!existingUser)
-            return res.status(401).json({ errorMessage: "Wrong username or password." });
+            return res.status(401).json({ errorMessage: "Wrong mobile number or password." });
         const passwordCorrect = await bcrypt.compare(
             password,
             existingUser.password
         );
         if (!passwordCorrect)
-            return res.status(401).json({ errorMessage: "Wrong username or password." });
+            return res.status(401).json({ errorMessage: "Wrong mobile number or password." });
 
         // sign the token
 

@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import data from "../../assets/data.json";
 import AuthContext from "../context/AuthContext";
 import axios from "../Api";
-import "./map.css";
 
 const Auth = () => {
   axios.defaults.withCredentials = true;
@@ -106,11 +105,16 @@ const Auth = () => {
   return (
     <div className="dark:bg-gray-bg">
       <section className="flex justify-center items-center">
-        <div className={`bg-white-900 rounded-xl p-6 w-${auth === 0 ? "10/12" : "4/12"} mt-5 drop-shadow-2xl pb-10 dark:drop-shadow-dark-2xl`}>
+        <div className={`bg-white-900 rounded-xl p-6 ${auth === 0 ? "w-10/12" : "w-4/12"} mt-5 drop-shadow-2xl pb-10 dark:drop-shadow-dark-2xl`}>
           <form className="space-y-7" onSubmit={auth === 0 ? signUp : logIn}>
             <fieldset className="border border-solid border-gray-300 px-12 py-5">
               <legend className={`text-2xl font-bold mb-1 ${auth === 1 && "text-center"}`}>
-                &nbsp;{handle === "bank" ? (auth === 1 ? "Blood Bank Log In" : "Add Your Bloodbank") : (handle === "donor" ? "Donor" : "Patient")} {handle !== "bank" && (auth === 0 ? "Sign Up" : "Log In")}&nbsp;
+                &nbsp;
+                {handle === "bank" ?
+                (auth === 1 ? "Blood Bank Log In" : "Add Your Bloodbank")
+                :(handle === "donor" ? "Donor" : "Patient")}
+                {handle !== "bank" && (auth === 0 ? "Sign Up" : "Log In")}
+                &nbsp;
               </legend>
               <legend align="right">
                 <input
@@ -122,7 +126,7 @@ const Auth = () => {
                 />
               </legend>
               <p></p>
-              {auth === 0 ? (
+              {auth === 0 ? (     // Signup
                 <>
                   <fieldset className="border border-solid border-gray-300 px-7 py-5 pb-7">
                     <legend className="text-2xl font-bold">
@@ -213,7 +217,8 @@ const Auth = () => {
                               onChange={(e) => setBlood(e.target.value)}
                               className="w-full p-3 text-md border border-silver rounded"
                             >
-                              {bloodGroups.map((e, i) => <option key={i} value={i}>{e}</option>)}
+                              {bloodGroups.map((e, i) =>
+                                <option key={i} value={i}>{e}</option>)}
                             </select>
                           </div>
                           <div>
@@ -300,7 +305,7 @@ const Auth = () => {
                     </div>
                   </fieldset>
                 </>
-              ) : (
+              ) : (      // Login
                 <>
                   <div>
                     <label className="font-semibold leading-8">Mobile:<font color="red">*</font></label>
@@ -328,8 +333,7 @@ const Auth = () => {
               <center>
                 <input
                   type="submit"
-                  className={buttonClass + (auth === 0 && " w-4/12")}
-                  value={auth === 0 ? "Sign Up" : "Log In"}
+                  className={`${buttonClass} ${auth === 0 ? "w-4/12" : ""}`}
                 />
               </center>
             </fieldset>

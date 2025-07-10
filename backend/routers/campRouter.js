@@ -2,11 +2,11 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 const { Camp } = require("../models/models");
 
-router.post("/", auth, async (req, res) => {
+router.post("/", auth, async (req, res) => {  // From Bank->RegisterBank.js
     try {
         req.body.bankId = req.user;
         req.body.donors = [];
-        const newCamp = new Camp(req.body);
+        const newCamp = new Camp(req.body);  //Injects the authenticated bank's ID into the new camp's bankId field.
         await newCamp.save();
         res.status(200).send();
     } catch (err) {
@@ -15,7 +15,7 @@ router.post("/", auth, async (req, res) => {
     }
 });
 
-router.get("/:state?/:district?", auth, async (req, res) => {
+router.get("/:state?/:district?", auth, async (req, res) => {  // From User -> Camps.js
     try {
         let query = {};
         if (req.params.state) {
@@ -24,10 +24,7 @@ router.get("/:state?/:district?", auth, async (req, res) => {
         } else {
             query.bankId = req.user;
         }
-        const data = await Camp.find(query).populate('bankId', '-_id -__v -password -requests -donations -stock').populate({
-            path: "donors._id",
-            select: '-__v -password'
-        });
+        const data = await Camp.find(query).populate('bankId', '-_id -__v -password -requests -donations -stock');
         res.json(data);
     } catch (err) {
         console.error(err);
@@ -35,7 +32,7 @@ router.get("/:state?/:district?", auth, async (req, res) => {
     }
 });
 
-router.get("/allCamps/:state/:district/:date", async (req, res) => {
+router.get("/allCamps/:state/:district/:date", async (req, res) => {  // From Main->Camps.js
     try {
         if (req.params.date) {
             const data = await Camp.find({

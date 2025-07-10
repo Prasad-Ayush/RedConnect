@@ -50,12 +50,12 @@ const RegisterBank = (props) => {
                         onSubmit={(e) => submit(e)}
                     >
                         <fieldset className="border border-solid border-gray-300 px-8 py-5">
-                            {props.todo == "register" && <legend className="text-2xl font-bold mb-1">
+                            {props.todo === "register" && <legend className="text-2xl font-bold mb-1">
                                 &nbsp;New Blood Donation Camp&nbsp;
                             </legend>}
                             <p></p>
                             <fieldset className="border border-solid border-gray-300 px-7 py-5 pb-7">
-                                {props.todo == "register" && <legend className="text-2xl font-bold">
+                                {props.todo === "register" && <legend className="text-2xl font-bold">
                                     &nbsp;Camp Details&nbsp;
                                 </legend>}
 
@@ -89,7 +89,8 @@ const RegisterBank = (props) => {
                                     <div><label className="font-semibold  leading-8">Contact: <font color="red">*</font></label>
                                         <input
                                             className="w-full p-3 text-md border border-silver rounded"
-                                            type="number"
+                                            type="tel"
+                                            pattern="[0-9]{10}"
                                             placeholder="Enter organizer mobile"
                                             required
                                             value={contact}
@@ -100,7 +101,6 @@ const RegisterBank = (props) => {
                                             <input
                                                 className="w-full p-3 text-md border border-silver rounded"
                                                 type="date"
-                                                placeholder="Enter organizer mobile"
                                                 required
                                                 value={date}
                                                 min={new Date().toISOString().split("T")[0]}
@@ -109,7 +109,6 @@ const RegisterBank = (props) => {
                                             <input
                                                 className="w-full p-3 text-md border border-silver rounded"
                                                 type="time"
-                                                placeholder="Enter organizer mobile"
                                                 required
                                                 value={start}
                                                 onChange={(e) => setStart(e.target.value)}
@@ -117,7 +116,6 @@ const RegisterBank = (props) => {
                                             <input
                                                 className="w-full p-3 text-md border border-silver rounded"
                                                 type="time"
-                                                placeholder="Enter organizer mobile"
                                                 required
                                                 value={end}
                                                 onChange={(e) => setEnd(e.target.value)}
@@ -128,13 +126,13 @@ const RegisterBank = (props) => {
                             </fieldset>
                             <br />
                             <fieldset className="border border-solid border-gray-300 px-7 py-5 pb-7">
-                                {props.todo == "register" && <legend className="text-2xl font-bold">
+                                {props.todo === "register" && <legend className="text-2xl font-bold">
                                     &nbsp;Address&nbsp;
                                 </legend>}
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label for="state" className="font-semibold  leading-8">State:<font color="red">*</font></label>
+                                        <label htmlFor="state" className="font-semibold  leading-8">State:<font color="red">*</font></label>
                                         <select name="state" id="state" onChange={(e) => { setState(e.target.value); setDistrict(0); }} className="w-full p-3 text-md border border-silver rounded">
                                             {
                                                 data.states.map((e, i) => <option value={i} selected={state === i}>{e.state}</option>)
@@ -142,7 +140,7 @@ const RegisterBank = (props) => {
                                         </select>
                                     </div>
 
-                                    <div><label for="district" className="font-semibold  leading-8">District:<font color="red">*</font></label>
+                                    <div><label htmlFor="district" className="font-semibold  leading-8">District:<font color="red">*</font></label>
                                         <select name="district" id="district" onChange={(e) => setDistrict(e.target.value)} className="w-full p-3 text-md border border-silver rounded">
                                             {
                                                 data.states[state].districts.map((e, i) => <option value={i} selected={district === i}>{e}</option>)

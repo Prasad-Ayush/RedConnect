@@ -7,7 +7,7 @@ function auth(req, res, next) {
 
     const verified = jwt.verify(token, process.env.JWT_SECRET);
     req.user = verified.user;
-
+    console.log("Token verified payload:", verified);
     next();
   } catch (err) {
     console.error(err);

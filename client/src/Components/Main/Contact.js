@@ -45,7 +45,7 @@ const Contact = () => {
                 <br />
                 <code>
                   {e.body.map((k) => {
-                    return <ul className="text-md dark:text-white-900">{k}</ul>;
+                    return <div className="text-md dark:text-white-900">{k}</div>;
                   })}
                 </code>
                 <br />

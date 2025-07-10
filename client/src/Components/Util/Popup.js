@@ -5,7 +5,7 @@ const Popup = (props) => {
         <div>
             {props.popup !== -1 && (
                 <div className="popup h-[150%] overflow-scroll">
-                    <div className="popup_inner rounded-lg p-7 overflow-y-scroll">
+                    <div className="popup_inner rounded-lg p-7 overflow-y-scroll dark:bg-gray-bg dark:text-white-900">
                         <div>
                             <h1 className="text-2xl font-bold inline-block">
                                 {props.handle} Details
@@ -18,9 +18,7 @@ const Popup = (props) => {
                                 <>
                                     {Object.keys(props.data).map((e) => {
                                         return (
-                                            e !== "_id" &&
-                                            e !== "longitude" &&
-                                            e !== "latitude" && (
+                                            e !== "_id" &&(
                                                 <tr className="border" key={e}>
                                                     <td className="font-bold p-4 border">{e[0].toUpperCase() + e.substr(1)}</td>
                                                     <td className="p-2">{props.data[e] ? props.data[e] : "---"}</td>

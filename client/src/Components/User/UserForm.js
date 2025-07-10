@@ -22,7 +22,7 @@ const UserForm = () => {
     const [me, setMe] = useState(false);
     const bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
     useEffect(() => {
-        if (handle == "donate") {
+        if (handle === "donate") {
             setMe(true);
         }
     }, []);
@@ -70,13 +70,13 @@ const UserForm = () => {
             <form
                 className="space-y-7"
                 action=""
-                onSubmit={(e) => { e.preventDefault(); if (bank == "") { alert("Select a blood bank"); return; } handle == "donate" ? donate() : request(); }}
+                onSubmit={(e) => { e.preventDefault(); if (bank === "") { alert("Select a blood bank"); return; } handle === "donate" ? donate() : request(); }}
             >
-                <fieldset className="border border-solid border-gray-300 p-3">
+                <fieldset className="border border-solid border-gray-300 p-3  dark:text-white-900">
                     <legend class="text-2xl font-bold">
                         &nbsp;{handle === "donate" ? "Donate Blood" : "Make Blood Request"} &nbsp;
                     </legend>
-                    {handle == "request" && <legend align="right">
+                    {handle === "request" && <legend align="right">
                         <input type="checkbox" id="me" value={me} onChange={(e) => setMe(!me)} />
                         <label for="me"> For me</label><br />
                     </legend>}
@@ -84,14 +84,14 @@ const UserForm = () => {
                     <table className="w-full" cellPadding={10}>
                         <tr>
                             <td>
-                                <label className="font-semibold leading-8">{handle == "request" && "Patient "}Name:<font color="red">*</font></label>
+                                <label className="font-semibold leading-8">{handle === "request" && "Patient "}Name:<font color="red">*</font></label>
                                 <input
-                                    className="w-full p-3 text-md border border-silver rounded"
+                                    className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg"
                                     type="text"
                                     placeholder="Enter your full name"
                                     required
                                     value={name}
-                                    disabled={me || handle == "donate"}
+                                    disabled={me || handle === "donate"}
                                     onChange={(e) => setName(e.target.value)}
                                 />
                             </td>
@@ -99,8 +99,8 @@ const UserForm = () => {
                                 <label for="blood" className="font-semibold  leading-8">Blood Group:<font color="red">*</font></label>
                                 <select name="blood"
                                     onChange={(e) => setBlood(e.target.value)}
-                                    disabled={me || handle == "donate"}
-                                    className="w-full p-3 text-md border border-silver rounded">
+                                    disabled={me || handle === "donate"}
+                                    className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg">
                                     {
                                         bloodGroups.map((e, i) => <option value={i} selected={blood === i}>{e}</option>)
                                     }
@@ -108,10 +108,11 @@ const UserForm = () => {
                             </td>
                         </tr>
                         <tr>
-                            {handle == "request" && <><td>
+                            {handle === "request" && <>
+                            <td>
                                 <label className="font-semibold  leading-8">Age:<font color="red">*</font></label>
                                 <input
-                                    className="w-full p-3 text-md border border-silver rounded"
+                                    className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg"
                                     type="number"
                                     placeholder="Enter your age"
                                     required
@@ -121,18 +122,15 @@ const UserForm = () => {
                                     onChange={(e) => setAge(e.target.value)}
                                 />
                             </td><td><label for="gender" className="font-semibold  leading-8">Gender:<font color="red">*</font></label>
-                                    <select name="gender" id="gender" disabled={me} onChange={(e) => setGender(e.target.value)} className="w-full p-3 text-md border border-silver rounded" >
+                                    <select name="gender" id="gender" disabled={me} onChange={(e) => setGender(e.target.value)} className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg" >
                                         <option value="male" selected={gender === "male"}>Male</option>
                                         <option value="female" selected={gender === "female"}>Female</option>
                                     </select></td></>}
                         </tr>
-                        <tr>
-
-                        </tr>
                         <tr><td>
                             <label className="font-semibold leading-8">Units (in mL):<font color="red">*</font></label>
                             <input
-                                className="w-full p-3 text-md border border-silver rounded"
+                                className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg"
                                 type="number"
                                 min={1}
                                 max={350}
@@ -141,9 +139,9 @@ const UserForm = () => {
                                 onChange={(e) => setUnits(e.target.value)}
                             />
                         </td><td colSpan={2}>
-                                <label for="desc" className="font-semibold  leading-8">{handle == "donate" ? "Disease (if any):" : "Reason:"}</label>
+                                <label for="desc" className="font-semibold  leading-8">{handle === "donate" ? "Disease (if any):" : "Reason:"}</label>
                                 <input
-                                    className="w-full p-3 text-md border border-silver rounded"
+                                    className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg"
                                     name="desc"
                                     type="text"
                                     onChange={(e) => setDesc(e.target.value.trim())}
@@ -151,14 +149,14 @@ const UserForm = () => {
                             </td></tr>
                         <tr>
                             <td><label for="state" className="font-semibold  leading-8">State:<font color="red">*</font></label>
-                                <select name="state" id="state" onChange={(e) => { setState(e.target.value); setDistrict(0); }} className="w-full p-3 text-md border border-silver rounded">
+                                <select name="state" id="state" onChange={(e) => { setState(e.target.value); setDistrict(0); }} className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg">
                                     {
                                         data.states.map((e, i) => <option value={i} selected={state === i}>{e.state}</option>)
                                     }
                                 </select>
                             </td>
                             <td><label for="district" className="font-semibold  leading-8">District:<font color="red">*</font></label>
-                                <select name="district" id="district" onChange={(e) => { setDistrict(e.target.value); }} className="w-full p-3 text-md border border-silver rounded">
+                                <select name="district" id="district" onChange={(e) => { setDistrict(e.target.value); }} className="w-full p-3 text-md border border-silver rounded dark:bg-gray-bg">
                                     {
                                         data.states[state].districts.map((e, i) => <option value={i} selected={district === i}>{e}</option>)
                                     }

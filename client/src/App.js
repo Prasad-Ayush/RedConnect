@@ -19,7 +19,7 @@ export default function App() {
 		<>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" element={<Navbar logIn={loggedIn} user={loggedIn && user.latitude ? "bank" : "user"} />}>
+					<Route path="/" element={<Navbar logIn={loggedIn} user={loggedIn && user.hospital ? "bank" : "user"} />}>
 						<Route index element={<Home />} />
 						{!loggedIn && <>
 							<Route path="/:type/:handle" element={<Auth logIn={loggedIn} />} />

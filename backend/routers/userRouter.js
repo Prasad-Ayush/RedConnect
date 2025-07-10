@@ -14,7 +14,7 @@ router.get("/", auth, async (req, res) => {
     }
 });
 
-router.post("/donate", auth, async (req, res) => {
+router.post("/donate", auth, async (req, res) => { //From User->UserForm.js
     try {
         req.body.userId = req.user;
         const date = new Date();
@@ -32,7 +32,7 @@ router.post("/donate", auth, async (req, res) => {
     }
 });
 
-router.post("/request", auth, async (req, res) => {
+router.post("/request", auth, async (req, res) => {  //From User->UserForm.js
     try {
         req.body.userId = req.user;
         const date = new Date();
@@ -50,7 +50,7 @@ router.post("/request", auth, async (req, res) => {
     }
 })
 
-router.get("/donations", auth, async (req, res) => {
+router.get("/donations", auth, async (req, res) => {  //From Util -> History.js
     try {
         const data = await Donations.find({ userId: req.user }).populate('bankId', '-_id -__v -password -requests -donations -stock');
         res.json(data);
@@ -70,7 +70,7 @@ router.get("/requests", auth, async (req, res) => {
     }
 });
 
-router.put("/", auth, async (req, res) => {
+router.put("/", auth, async (req, res) => {  //From User -> EditProfile.js
     try {
         // console.log(req.user);
         User.updateOne({ _id: req.user }, req.body, (err, user) => {

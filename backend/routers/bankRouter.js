@@ -2,7 +2,7 @@ const router = require("express").Router();
 const auth = require("../middleware/auth");
 const { User, BloodBank, Donations, Requests, Camp } = require("../models/models");
 
-router.post("/:handle", auth, async (req, res) => {
+router.post("/:handle", auth, async (req, res) => {  // From User->BanksSearch.js
     try {
         const filter = req.params.handle == "bank" ? {} : { password: 0, requests: 0, donations: 0, stock: 0, __v: 0 };
         const banks = await BloodBank.find(req.body, filter);
@@ -13,7 +13,7 @@ router.post("/:handle", auth, async (req, res) => {
     }
 });
 
-router.get("/allBanks/:state/:district", async (req, res) => {
+router.get("/allBanks/:state/:district", async (req, res) => {  // From Main->Banks.js
     try {
         const banks = await BloodBank.find({ state: req.params.state, district: req.params.district }, { password: 0, _id: 0, donations: 0, requests: 0, stock: 0 });
         res.json(banks);
@@ -23,7 +23,7 @@ router.get("/allBanks/:state/:district", async (req, res) => {
     }
 });
 
-router.put("/updateStock", auth, async (req, res) => {
+router.put("/updateStock", auth, async (req, res) => {  // From Util->Status.js
     try {
         const prevStock = await BloodBank.findOne({ _id: req.user }, { stock: 1 });
         await BloodBank.updateOne(
@@ -37,7 +37,7 @@ router.put("/updateStock", auth, async (req, res) => {
     }
 });
 
-router.put("/deleteStock", auth, async (req, res) => {
+router.put("/deleteStock", auth, async (req, res) => {  // From Util->Status.js
     try {
         const prevStock = await BloodBank.findOne({ _id: req.user }, { stock: 1 });
         if (prevStock.stock[req.body.bloodGroup] < req.body.units) {
@@ -55,7 +55,7 @@ router.put("/deleteStock", auth, async (req, res) => {
     }
 });
 
-router.get("/getStock", auth, async (req, res) => {
+router.get("/getStock", auth, async (req, res) => {  // From Bank->Stock.js
     try {
         const data = await BloodBank.findOne(
             { _id: req.user },
@@ -68,7 +68,7 @@ router.get("/getStock", auth, async (req, res) => {
     }
 });
 
-router.put("/donations", auth, async (req, res) => {
+router.put("/donations", auth, async (req, res) => {  //From Util -> History.js
     try {
         Donations.updateOne({ _id: req.body.id }, { status: req.body.status }, (err, user) => {
             if (err) {
@@ -83,7 +83,7 @@ router.put("/donations", auth, async (req, res) => {
     }
 });
 
-router.put("/requests", auth, async (req, res) => {
+router.put("/requests", auth, async (req, res) => {  //From Util -> History.js
     try {
         Requests.updateOne({ _id: req.body.id }, { status: req.body.status }, (err, user) => {
             if (err) {
@@ -100,8 +100,12 @@ router.put("/requests", auth, async (req, res) => {
 
 router.get("/donations", auth, async (req, res) => {
     try {
-        const data = await Donations.find({ bankId: req.user }).populate('userId', '-__v -password -requests -donations -stock');
-        res.json(data);
+        const data = await Donations.find({ bankId: req.user })
+        .populate(
+            'userId', // Populate user data from Users collection
+            '-__v -password -requests -donations -stock' // Exclude sensitive or unnecessary fields
+        );
+        res.json(data);  // Return the populated donation data as JSON
     } catch (err) {
         console.error(err);
         res.status(500).send();
@@ -121,7 +125,7 @@ router.get("/requests", auth, async (req, res) => {
 router.put("/", auth, async (req, res) => {
     try {
         // console.log(req.user);
-        BloodBank.updateOne({ _id: req.user }, req.body, (err, user) => {
+        BloodBank.updateOne({ _id: req.user }, req.body, (err, user) => { // Editprofile.js from Bank
             if (err) {
                 res.status(404).send("BloodBank not found");
             } else {
